@@ -49,7 +49,7 @@ node(nodeName) {
           def location="/ceph/cephci-jenkins/latest-rhceph-container-info/upstream.yaml"
           def yamlFileExists = sh (returnStatus: true, script: "ls -l ${location}")
           if (yamlFileExists != 0) {
-            println "File ${location}/${yamlFile} does not exist."
+            println "File ${location} does not exist."
             return [:]
           }
           def datacontent = readYaml file: "${location}"
