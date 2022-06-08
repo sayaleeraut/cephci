@@ -779,4 +779,39 @@ def readFromReleaseFileforUpstraem(def location="/ceph/cephci-jenkins/latest-rhc
     return dataContent
 }
 
+def fetchStagesUpstream(
+    def upstreamVersion, 
+    def testResults, 
+    def scriptPathPrefix='pipeline/scripts') {
+    /*
+        Return all the scripts found under
+        cephci/pipeline/scripts/<MAJOR>/<MINOR>/<TIER-x>/*.sh
+        as pipeline Test Stages.
+           example: cephci/pipeline/scripts/5/0/tier-0/*.sh
+    */
+    def scriptPath = "${env.WORKSPACE}/${scriptPathPrefix}/${upstreamVersion}/"
+
+    def testStages = [:]
+    def scriptFiles = sh (returnStdout: true, script: "ls ${scriptPath}*.sh | cat")
+    if (! scriptFiles ){
+        return testStages
+    }
+
+    def fileNames = scriptFiles.split("\\n")
+    for (filePath in fileNames) {
+        def fileName = filePath.tokenize("/")[-1].tokenize(".")[0]
+        def scriptArgTmp = "--upstream-bulid ${upstreamVersion}"
+        testResults[fileName] = [:]
+        testStages[fileName] = {
+            stage(fileName) {
+                def absFile = "${scriptPath}${fileName}.sh"
+                testResults[fileName]["status"] = executeTestScript(absFile, scriptArgTmp)
+            }
+        }
+    }
+
+    println "Test Stages - ${testStages}"
+    return testStages
+}
+
 return this;
