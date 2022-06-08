@@ -774,7 +774,7 @@ def readFromReleaseFileforUpstraem(def location="/ceph/cephci-jenkins/latest-rhc
         println "File ${location} does not exist."
         return [:]
     }
-    def datacontent = readYaml file: "${location}"
+    def dataContent = readYaml file: "${location}"
     println "content of release file is: ${dataContent}"
     return dataContent
 }
