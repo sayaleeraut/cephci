@@ -52,7 +52,7 @@ node(nodeName) {
             println "File ${location} does not exist."
             return [:]
           }
-          def datacontent = readYaml file: "${location}"
+          def dataContent = readYaml file: "${location}"
           println "content of release file is: ${dataContent}"
         }
     } catch(Exception err) {
