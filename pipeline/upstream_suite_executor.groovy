@@ -4,6 +4,8 @@
 // Global variables section
 def nodeName = "centos-7"
 def sharedLib
+def testStages = [:]
+def testResults = [:]
 
 // Pipeline script entry point
 node(nodeName) {
@@ -54,6 +56,14 @@ node(nodeName) {
           }
           def dataContent = readYaml file: "${location}"
           println "content of release file is: ${dataContent}"
+        }
+        stage('Execute Testsuites') {
+            testStages = sharedLib.fetchStagesUpstream(upstreamVersion, testResults)
+            if ( testStages.isEmpty() ) {
+                currentBuild.result = "ABORTED"
+                error "No test scripts were found for execution."
+            }
+            println "upstream script ${testStages} does not exist."
         }
     } catch(Exception err) {
         if (currentBuild.result != "ABORTED") {
