@@ -6,6 +6,7 @@ def nodeName = "centos-7"
 def sharedLib
 def testStages = [:]
 def testResults = [:]
+def upstreamVersion = "quincy"
 
 // Pipeline script entry point
 node(nodeName) {
@@ -47,15 +48,14 @@ node(nodeName) {
         }
 
         stage('Get recipe Details') {
-          upstreamVersion = "quincy"
-          def location="/ceph/cephci-jenkins/latest-rhceph-container-info/upstream.yaml"
-          def yamlFileExists = sh (returnStatus: true, script: "ls -l ${location}")
-          if (yamlFileExists != 0) {
-            println "File ${location} does not exist."
-            return [:]
-          }
-          def dataContent = readYaml file: "${location}"
-          println "content of release file is: ${dataContent}"
+            def location="/ceph/cephci-jenkins/latest-rhceph-container-info/upstream.yaml"
+            def yamlFileExists = sh (returnStatus: true, script: "ls -l ${location}")
+            if (yamlFileExists != 0) {
+                println "File ${location} does not exist."
+                return [:]
+            }
+            def dataContent = readYaml file: "${location}"
+            println "content of release file is: ${dataContent}"
         }
         stage('Execute Testsuites') {
             testStages = sharedLib.fetchStagesUpstream(upstreamVersion, testResults)
@@ -64,6 +64,22 @@ node(nodeName) {
                 error "No test scripts were found for execution."
             }
             println "upstream script ${testStages} does not exist."
+        }
+        stage('publish result') {
+            if ( ! ("FAIL" in sharedLib.fetchStageStatus(testResults)) ) {
+                def location="/ceph/cephci-jenkins/latest-rhceph-container-info/upstream.yaml"
+                def latestContent = sharedLib.readFromReleaseFileforUpstraem()
+                if ( latestContent.containsKey(upstreamVersion) ) {
+                    latestContent[upstreamVersion] = dataContent[upstreamVersion]  // need to update
+                }
+                else {
+                    def updateContent = ["${upstreamVersion}": dataContent[upstreamVersion]]   // need to update
+                    latestContent += updateContent
+                }
+            }
+            writeYaml file: "${location}", data: latestContent, overwrite: true
+            def updatedDataContent = readYaml file: "${location}"
+            println "updated content of release file is: ${updatedDataContent}"
         }
     } catch(Exception err) {
         if (currentBuild.result != "ABORTED") {
