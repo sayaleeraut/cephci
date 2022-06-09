@@ -67,19 +67,20 @@ node(nodeName) {
         }
         stage('publish result') {
             if ( ! ("FAIL" in sharedLib.fetchStageStatus(testResults)) ) {
-                def location="/ceph/cephci-jenkins/latest-rhceph-container-info/upstream.yaml"
-                def latestContent = sharedLib.readFromReleaseFileforUpstraem()
-                if ( latestContent.containsKey(upstreamVersion) ) {
-                    latestContent[upstreamVersion] = dataContent[upstreamVersion]  // need to update
-                }
-                else {
-                    def updateContent = ["${upstreamVersion}": dataContent[upstreamVersion]]   // need to update
-                    latestContent += updateContent
-                }
-            }
-            writeYaml file: "${location}", data: latestContent, overwrite: true
-            def updatedDataContent = readYaml file: "${location}"
-            println "updated content of release file is: ${updatedDataContent}"
+                println "Publish result"
+//                 def location="/ceph/cephci-jenkins/latest-rhceph-container-info/upstream.yaml"
+//                 def latestContent = sharedLib.readFromReleaseFileforUpstraem()
+//                 if ( latestContent.containsKey(upstreamVersion) ) {
+//                     latestContent[upstreamVersion] = dataContent[upstreamVersion]  // need to update
+//                 }
+//                 else {
+//                     def updateContent = ["${upstreamVersion}": dataContent[upstreamVersion]]   // need to update
+//                     latestContent += updateContent
+//                 }
+//             }
+//             writeYaml file: "${location}", data: latestContent, overwrite: true
+//             def updatedDataContent = readYaml file: "${location}"
+//             println "updated content of release file is: ${updatedDataContent}"
         }
     } catch(Exception err) {
         if (currentBuild.result != "ABORTED") {
