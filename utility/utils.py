@@ -1408,3 +1408,34 @@ def clone_the_repo(config, node, path_to_clone):
     log.info(f"repo_url: {repo_url}")
     git_clone_cmd = f"sudo git clone {repo_url} -b {branch}"
     node.exec_command(cmd=f"cd {path_to_clone} ; {git_clone_cmd}")
+
+
+def fetch_upstream_build_artifacts(build, ceph_version):
+    """Retrieves upstream build details from magna002.ceph.redhat.com.
+
+    "RHCEPH-{ceph_version}.yaml" would be file name which is
+    searched in magna002 Ceph artifacts location.
+
+    Args:
+        build: build (--build value ex upstream)
+        ceph_version: RHCS version (pacific, quincy)
+        platform: OS distribution name with major Version(ex., rhel-8)
+
+    Returns:
+        base_url, container_registry, image-name, image-tag
+    """
+    recipe_url = get_cephci_config().get("build-url", magna_rhcs_artifacts)
+    url = f"{recipe_url}{build}.yaml"
+    data = requests.get(url, verify=False)
+    yml_data = yaml.safe_load(data.text)
+
+    build_info = yml_data.get(ceph_version)
+    if not build_info:
+        raise TestSetupFailure(f"{build} did not found in {url}.")
+
+    container_image = build_info["image"]
+    registry, image_name = container_image.split(":")[0].split("/", 1)
+    image_tag = container_image.split(":")[-1]
+    base_url = build_info["composes"]
+
+    return base_url, registry, image_name, image_tag
