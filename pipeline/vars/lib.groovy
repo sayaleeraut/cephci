@@ -785,7 +785,7 @@ def fetchStagesUpstream(
 
     def fileNames = scriptFiles.split("\\n")
     for (filePath in fileNames) {
-        def scriptArg = "--build ${buildType}"
+        def scriptArg = "--build ${buildType} --rhbuild ${upstreamVersion}"
         def fileName = filePath.tokenize("/")[-1].tokenize(".")[0]
         testResults[fileName] = [:]
         testStages[fileName] = {
