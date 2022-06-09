@@ -765,7 +765,7 @@ def uploadTestResults(def sourceDir, def credPreproc, def runProperties) {
 }
 
 def fetchStagesUpstream(
-    def scriptArg,
+    def buildType,
     def upstreamVersion, 
     def testResults, 
     def scriptPathPrefix='pipeline/scripts') {
@@ -775,7 +775,7 @@ def fetchStagesUpstream(
         as pipeline Test Stages.
            example: cephci/pipeline/scripts/quincy/*.sh
     */
-    def scriptPath = "${env.WORKSPACE}/${scriptPathPrefix}/${upstreamVersion}/"
+    def scriptPath = "${env.WORKSPACE}/${scriptPathPrefix}/${buildType}/${upstreamVersion}/"
 
     def testStages = [:]
     def scriptFiles = sh (returnStdout: true, script: "ls ${scriptPath}*.sh | cat")
@@ -785,6 +785,7 @@ def fetchStagesUpstream(
 
     def fileNames = scriptFiles.split("\\n")
     for (filePath in fileNames) {
+        def scriptArg = "--build ${buildType}"
         def fileName = filePath.tokenize("/")[-1].tokenize(".")[0]
         testResults[fileName] = [:]
         testStages[fileName] = {
