@@ -765,14 +765,15 @@ def uploadTestResults(def sourceDir, def credPreproc, def runProperties) {
 }
 
 def fetchStagesUpstream(
+    def scriptArg,
     def upstreamVersion, 
     def testResults, 
     def scriptPathPrefix='pipeline/scripts') {
     /*
         Return all the scripts found under
-        cephci/pipeline/scripts/<MAJOR>/<MINOR>/<TIER-x>/*.sh
+        cephci/pipeline/scripts/<upstraem version>/*.sh
         as pipeline Test Stages.
-           example: cephci/pipeline/scripts/5/0/tier-0/*.sh
+           example: cephci/pipeline/scripts/quincy/*.sh
     */
     def scriptPath = "${env.WORKSPACE}/${scriptPathPrefix}/${upstreamVersion}/"
 
@@ -785,17 +786,15 @@ def fetchStagesUpstream(
     def fileNames = scriptFiles.split("\\n")
     for (filePath in fileNames) {
         def fileName = filePath.tokenize("/")[-1].tokenize(".")[0]
-        def scriptArgTmp = "--bulid upstream"
         testResults[fileName] = [:]
         testStages[fileName] = {
             stage(fileName) {
                 def absFile = "${scriptPath}${fileName}.sh"
-                testResults[fileName]["status"] = executeTestScript(absFile, scriptArgTmp)
+                testResults[fileName]["status"] = executeTestScript(absFile, scriptArg)
             }
         }
     }
 
-    println "Test Stages - ${testStages}"
     return testStages
 }
 
