@@ -48,8 +48,7 @@ node(nodeName) {
             }
         }
         stage('Execute Testsuites') {
-            cliArg = "--build ${buildType}"
-            testStages = sharedLib.fetchStagesUpstream(cliArg, upstreamVersion, testResults)
+            testStages = sharedLib.fetchStagesUpstream(buildType, upstreamVersion, testResults)
             if ( testStages.isEmpty() ) {
                 currentBuild.result = "ABORTED"
                 error "No test scripts were found for execution."
