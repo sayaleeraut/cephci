@@ -764,21 +764,6 @@ def uploadTestResults(def sourceDir, def credPreproc, def runProperties) {
     }
 }
 
-def readFromReleaseFileforUpstraem(def location="/ceph/cephci-jenkins/latest-rhceph-container-info/upstream.yaml"
-    ) {
-    /*
-        Method to read content from the release yaml file for upstarem testing.
-    */
-    def yamlFileExists = sh (returnStatus: true, script: "ls -l ${location}")
-    if (yamlFileExists != 0) {
-        println "File ${location} does not exist."
-        return [:]
-    }
-    def dataContent = readYaml file: "${location}"
-    println "content of release file is: ${dataContent}"
-    return dataContent
-}
-
 def fetchStagesUpstream(
     def upstreamVersion, 
     def testResults, 
@@ -800,7 +785,7 @@ def fetchStagesUpstream(
     def fileNames = scriptFiles.split("\\n")
     for (filePath in fileNames) {
         def fileName = filePath.tokenize("/")[-1].tokenize(".")[0]
-        def scriptArgTmp = "--upstream-bulid ${upstreamVersion}"
+        def scriptArgTmp = "--bulid upstream"
         testResults[fileName] = [:]
         testStages[fileName] = {
             stage(fileName) {
