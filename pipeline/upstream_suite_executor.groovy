@@ -53,7 +53,7 @@ node(nodeName) {
                 currentBuild.result = "ABORTED"
                 error "No test scripts were found for execution."
             }
-            currentBuild.description = "${buildType} - ${upstream}"
+            currentBuild.description = "${buildType} - ${upstreamVersion}"
         }
 
         parallel testStages
