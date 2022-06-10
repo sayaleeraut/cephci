@@ -442,7 +442,7 @@ def run(args):
     if inventory_file is None and not reuse and cloud_type in ["openstack", "ibmc"]:
         raise Exception("Require system configuration information to provision.")
 
-    platform = args.get("--platform", None) 
+    platform = args["--platform"] 
     build = args.get("--build", None)
 
     if build and build == "upstream":
