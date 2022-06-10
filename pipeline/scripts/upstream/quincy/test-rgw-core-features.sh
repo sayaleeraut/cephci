@@ -3,6 +3,7 @@ echo "Beginning Red Hat Ceph RGW Core feature testing."
 
 random_string=$(cat /dev/urandom | tr -cd 'a-z0-9' | head -c 5)
 instance_name="ci-${random_string}"
+platform="rhel-8"
 test_suite="suites/pacific/rgw/tier-0_rgw.yaml"
 test_conf="conf/pacific/rgw/tier-0_rgw.yaml"
 test_inventory="conf/inventory/rhel-8-latest.yaml"
@@ -20,6 +21,7 @@ fi
 $WORKSPACE/.venv/bin/python run.py \
     --osp-cred $HOME/osp-cred-ci-2.yaml \
     --instances-name $instance_name \
+    --platform $platform \
     --global-conf $test_conf \
     --suite $test_suite \
     --inventory $test_inventory \
