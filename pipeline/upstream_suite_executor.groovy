@@ -61,6 +61,7 @@ node(nodeName) {
         stage('publish result') {
             if ( ! ("FAIL" in sharedLib.fetchStageStatus(testResults)) ) {
                 println "Publish result"
+            }
         }
     } catch(Exception err) {
         if (currentBuild.result != "ABORTED") {
