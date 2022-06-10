@@ -442,7 +442,7 @@ def run(args):
     if inventory_file is None and not reuse and cloud_type in ["openstack", "ibmc"]:
         raise Exception("Require system configuration information to provision.")
 
-    platform = args["--platform"] 
+    platform = args["--platform"]
     build = args.get("--build", None)
 
     if build and build == "upstream":
@@ -453,7 +453,6 @@ def run(args):
         base_url, docker_registry, docker_image, docker_tag = fetch_build_artifacts(
             build, rhbuild, platform
         )
-    
 
     store = args.get("--store", False)
 
