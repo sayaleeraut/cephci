@@ -19,7 +19,7 @@ node(nodeName) {
                 checkout(
                     scm: [
                         $class: 'GitSCM',
-                        branches: [[name: 'origin/master']],
+                        branches: [[name: 'refs/remotes/origin/test_upstream']],
                         extensions: [
                             [
                                 $class: 'CleanBeforeCheckout',
