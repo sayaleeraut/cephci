@@ -760,4 +760,56 @@ def SendUMBMessage(def msgMap, def overrideTopic, def msgType) {
 
 }
 
+
+def fetchStagesUpstream(
+    def tags, def overrides, def testResults, def rhcephversion=null,
+    def metadataFilePath=null
+    ) {
+    /*
+        Return all the scripts found under
+        cephci/pipeline/metadata/<MAJOR>.<MINOR>.yaml matching
+        the given tierLevel as pipeline Test Stages.
+           example: cephci/pipeline/metadata/5.1.yaml
+    */
+    println("Inside fetch stages from runner")
+    def overridesStr = writeJSON returnText: true, json: overrides
+
+    def runnerCLI = "cd ${env.WORKSPACE}/pipeline/scripts/ci;"
+    runnerCLI = "${runnerCLI} ${env.WORKSPACE}/.venv/bin/python getPipelineStages.py"
+    runnerCLI = "${runnerCLI} --rhcephVersion ${rhcephVersion}"
+    runnerCLI = "${runnerCLI} --tags ${tags}"
+    runnerCLI = "${runnerCLI} --overrides '${overridesStr}'"
+
+    if(metadataFilePath){
+        runnerCLI = "${runnerCLI} --metadata ${metadataFilePath}"
+    }
+
+    println(f"RunnerCLI: {runnerCLI}")
+
+    def testScriptString = sh (returnStdout: true, script: runnerCLI)
+
+    println(f"testScriptString: {testScriptString}")
+
+    def testScripts = readYaml text: testScriptString
+    def testStages = [:]
+
+    if (! testScripts ){
+        return testStages
+    }
+
+    testScripts["scripts"].each{scriptName, scriptData->
+        testResults[scriptName] = [:]
+        testStages[scriptName] = {
+            stage(scriptName){
+                testResults[scriptName]["status"] = executeTestScript(scriptData)
+                testResults[scriptName]["logdir"] = scriptData["log_dir"]
+            }
+        }
+    }
+    def final_stage = testScripts["final_stage"]
+    println(f"Final Stage after : {final_stage}")
+    println(f"Test Stages - {testStages}")
+    return ["testStages": testStages, "final_stage": final_stage]
+}
+
 return this;
