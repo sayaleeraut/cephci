@@ -53,14 +53,14 @@ node(nodeName) {
             def tags = ""
             print("Fetching stages")
             fetchStages = sharedLib.fetchStages(tags, overrides, testResults, upstreamVersion)
-            print(f"Stages fetched: {fetchStages}")
+            print("Stages fetched: ${fetchStages}")
             testStages = fetchStages["testStages"]
             if ( testStages.isEmpty() ) {
                 currentBuild.result = "ABORTED"
                 error "No test scripts were found for execution."
             }
             final_stage = fetchStages["final_stage"]
-            println(f"final_stage : {final_stage}")
+            println("final_stage : ${final_stage}")
 //             testStages = sharedLib.fetchStagesUpstream(buildType, upstreamVersion, testResults)
             currentBuild.description = "${build} - ${upstreamVersion}"
         }
