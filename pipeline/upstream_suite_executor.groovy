@@ -8,7 +8,7 @@ def testStages = [:]
 def testResults = [:]
 def upstreamVersion = "quincy"
 def buildType = "upstream"
-def overrides
+def overrides = [:]
 
 // Pipeline script entry point
 node(nodeName) {
@@ -49,7 +49,7 @@ node(nodeName) {
             }
         }
         stage('Execute Testsuites') {
-            overrides = [build:buildType]
+            overrides."build" = buildType
             println(overrides)
             def tags = ""
             print("Fetching stages")
