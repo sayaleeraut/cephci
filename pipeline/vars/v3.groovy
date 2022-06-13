@@ -763,7 +763,6 @@ def SendUMBMessage(def msgMap, def overrideTopic, def msgType) {
 
 def fetchStagesUpstream(
     def tags, def overrides, def testResults, def rhcephversion=null,
-    def metadataFilePath=null
     ) {
     /*
         Return all the scripts found under
@@ -780,15 +779,11 @@ def fetchStagesUpstream(
     runnerCLI = "${runnerCLI} --tags ${tags}"
     runnerCLI = "${runnerCLI} --overrides '${overridesStr}'"
 
-    if(metadataFilePath){
-        runnerCLI = "${runnerCLI} --metadata ${metadataFilePath}"
-    }
-
-    println(f"RunnerCLI: {runnerCLI}")
+    println("RunnerCLI: ${runnerCLI}")
 
     def testScriptString = sh (returnStdout: true, script: runnerCLI)
 
-    println(f"testScriptString: {testScriptString}")
+    println("testScriptString: ${testScriptString}")
 
     def testScripts = readYaml text: testScriptString
     def testStages = [:]
@@ -807,8 +802,8 @@ def fetchStagesUpstream(
         }
     }
     def final_stage = testScripts["final_stage"]
-    println(f"Final Stage after : {final_stage}")
-    println(f"Test Stages - {testStages}")
+    println("Final Stage after : ${final_stage}")
+    println "Test Stages - ${testStages}"
     return ["testStages": testStages, "final_stage": final_stage]
 }
 
