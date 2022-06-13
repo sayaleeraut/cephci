@@ -770,6 +770,7 @@ def fetchStagesUpstream(def tags, def overrides, def testResults, def rhcephvers
     */
     println("Inside fetch stages from runner")
     def overridesStr = writeJSON returnText: true, json: overrides
+    println(overridesStr)
 
     def runnerCLI = "cd ${env.WORKSPACE}/pipeline/scripts/ci;"
     runnerCLI = "${runnerCLI} ${env.WORKSPACE}/.venv/bin/python getPipelineStages.py"
