@@ -7,7 +7,7 @@ def sharedLib
 def testStages = [:]
 def testResults = [:]
 def upstreamVersion = "quincy"
-def build = "upstream"
+def buildType = "upstream"
 def overrides
 
 // Pipeline script entry point
@@ -49,7 +49,7 @@ node(nodeName) {
             }
         }
         stage('Execute Testsuites') {
-            overrides = [build, "${build}"]
+            overrides = [build, buildType]
             println(overrides)
             def tags = ""
             print("Fetching stages")
@@ -63,7 +63,7 @@ node(nodeName) {
             final_stage = fetchStages["final_stage"]
             println("final_stage : ${final_stage}")
 //             testStages = sharedLib.fetchStagesUpstream(buildType, upstreamVersion, testResults)
-            currentBuild.description = "${build} - ${upstreamVersion}"
+            currentBuild.description = "${buildType} - ${upstreamVersion}"
         }
 
         parallel testStages
