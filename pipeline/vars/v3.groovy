@@ -761,9 +761,7 @@ def SendUMBMessage(def msgMap, def overrideTopic, def msgType) {
 }
 
 
-def fetchStagesUpstream(
-    def tags, def overrides, def testResults, def rhcephversion=null,
-    ) {
+def fetchStagesUpstream(def tags, def overrides, def testResults, def rhcephversion=null) {
     /*
         Return all the scripts found under
         cephci/pipeline/metadata/<MAJOR>.<MINOR>.yaml matching
