@@ -769,14 +769,14 @@ def fetchStagesUpstream(def tags, def overrides, def testResults, def rhcephvers
            example: cephci/pipeline/metadata/5.1.yaml
     */
     println("Inside fetch stages from runner")
-    def overridesStr = writeJSON returnText: true, json: overrides
-    println(overridesStr)
+//     def overridesStr = writeJSON returnText: true, json: overrides
+//     println(overridesStr)
 
     def runnerCLI = "cd ${env.WORKSPACE}/pipeline/scripts/ci;"
     runnerCLI = "${runnerCLI} ${env.WORKSPACE}/.venv/bin/python getPipelineStages.py"
     runnerCLI = "${runnerCLI} --rhcephVersion ${rhcephVersion}"
     runnerCLI = "${runnerCLI} --tags ${tags}"
-    runnerCLI = "${runnerCLI} --overrides '${overridesStr}'"
+    runnerCLI = "${runnerCLI} --overrides '${overrides}'"
 
     println("RunnerCLI: ${runnerCLI}")
 
