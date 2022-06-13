@@ -1,5 +1,5 @@
 /*
-    Script that trigger testsuite for upstream recipe 
+    Script that trigger testsuite for upstream build
 */
 // Global variables section
 def nodeName = "centos-7"
@@ -7,7 +7,8 @@ def sharedLib
 def testStages = [:]
 def testResults = [:]
 def upstreamVersion = "quincy"
-def buildType = "upstream"
+def build = "upstream"
+def overrides
 
 // Pipeline script entry point
 node(nodeName) {
@@ -18,7 +19,7 @@ node(nodeName) {
                 checkout(
                     scm: [
                         $class: 'GitSCM',
-                        branches: [[name: 'refs/remotes/origin/test_upstream']],
+                        branches: [[name: 'origin/master']],
                         extensions: [
                             [
                                 $class: 'CleanBeforeCheckout',
@@ -43,17 +44,25 @@ node(nodeName) {
                     changelog: false,
                     poll: false
                 )
-                sharedLib = load("${env.WORKSPACE}/pipeline/vars/lib.groovy")
+                sharedLib = load("${env.WORKSPACE}/pipeline/vars/v3.groovy")
                 sharedLib.prepareNode()
             }
         }
         stage('Execute Testsuites') {
-            testStages = sharedLib.fetchStagesUpstream(buildType, upstreamVersion, testResults)
+            overrides = [build, build]
+            def tags = ""
+            print("Fetching stages")
+            fetchStages = sharedLib.fetchStages(tags, overrides, testResults, upstreamVersion)
+            print(f"Stages fetched: {fetchStages}")
+            testStages = fetchStages["testStages"]
             if ( testStages.isEmpty() ) {
                 currentBuild.result = "ABORTED"
                 error "No test scripts were found for execution."
             }
-            currentBuild.description = "${buildType} - ${upstreamVersion}"
+            final_stage = fetchStages["final_stage"]
+            println(f"final_stage : {final_stage}")
+//             testStages = sharedLib.fetchStagesUpstream(buildType, upstreamVersion, testResults)
+            currentBuild.description = "${build} - ${upstreamVersion}"
         }
 
         parallel testStages
