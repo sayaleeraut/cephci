@@ -49,7 +49,7 @@ node(nodeName) {
             }
         }
         stage('Execute Testsuites') {
-            overrides = [build, buildType]
+            overrides = [build:buildType]
             println(overrides)
             def tags = ""
             print("Fetching stages")
