@@ -10,7 +10,7 @@
 
 - name: "Beginning Red Hat Cephadm testing with upstream build"
   suite: "suites/quincy/cephadm/tier-0_dmfg.yaml"
-  global-conf: "conf/quincy/cephadm/sanity-cephadm.yaml"
+  global-conf: "conf/quincy/cephadm/tier-0.yaml"
   platform: "rhel-8"
   rhbuild: "quincy"
   inventory:
