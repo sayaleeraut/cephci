@@ -761,24 +761,24 @@ def SendUMBMessage(def msgMap, def overrideTopic, def msgType) {
 }
 
 
-def fetchStagesUpstream(def tags, def overrides, def testResults, def rhcephversion=null) {
+def fetchStagesUpstream(def tags, def overrides, def testResults, def upstreamVersion) {
     /*
         Return all the scripts found under
-        cephci/pipeline/metadata/<MAJOR>.<MINOR>.yaml matching
+        cephci/pipeline/metadata/upstreamVersion.yaml matching
         the given tierLevel as pipeline Test Stages.
-           example: cephci/pipeline/metadata/5.1.yaml
+           example: cephci/pipeline/metadata/quincy.yaml
     */
     println("Inside fetch stages from runner")
 //     def overridesStr = writeJSON returnText: true, json: overrides
-    println(overrides)
+    println overrides
 
     def runnerCLI = "cd ${env.WORKSPACE}/pipeline/scripts/ci;"
     runnerCLI = "${runnerCLI} ${env.WORKSPACE}/.venv/bin/python getPipelineStages.py"
     runnerCLI = "${runnerCLI} --rhcephVersion ${rhcephVersion}"
     runnerCLI = "${runnerCLI} --tags ${tags}"
     runnerCLI = "${runnerCLI} --overrides '${overrides}'"
-    println(overrides)
-    println(runnerCLI)
+    println overrides
+    println runnerCLI
 
     println("RunnerCLI: ${runnerCLI}")
 
