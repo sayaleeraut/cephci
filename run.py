@@ -48,7 +48,7 @@ from utility.utils import (
     create_unique_test_name,
     email_results,
     fetch_build_artifacts,
-    fetch_upstream_build_artifacts,
+    fetch_upstream_build,
     generate_unique_id,
     magna_url,
 )
