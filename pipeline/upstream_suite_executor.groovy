@@ -53,7 +53,7 @@ node(nodeName) {
 //             println(overrides)
             def tags = ""
             print("Fetching stages")
-            fetchStages = sharedLib.fetchStages(tags, testResults, upstreamVersion)
+            fetchStages = sharedLib.fetchStagesUpstream(tags, testResults, upstreamVersion)
             print("Stages fetched: ${fetchStages}")
             testStages = fetchStages["testStages"]
             if ( testStages.isEmpty() ) {
