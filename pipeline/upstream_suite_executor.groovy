@@ -6,7 +6,7 @@ def nodeName = "centos-7"
 def sharedLib
 def testStages = [:]
 def testResults = [:]
-def upstreamVersion = "quincy"
+def upstreamVersion = "${params.Upstream_Version}"
 def buildType = "upstream"
 def overrides = [:]
 
@@ -49,18 +49,14 @@ node(nodeName) {
             }
         }
         stage('Execute Testsuites') {
-//             overrides.build = upstreamVersion
             def tags = "${buildType},stage-1"
-            print("Fetching stages")
             fetchStages = sharedLib.fetchStagesUpstream(tags, overrides, testResults, upstreamVersion)
             print("Stages fetched: ${fetchStages}")
             testStages = fetchStages["testStages"]
             if ( testStages.isEmpty() ) {
                 currentBuild.result = "ABORTED"
-                error "No test scripts were found for execution."
+                error "No test suites were found for execution."
             }
-            final_stage = fetchStages["final_stage"]
-            println("final_stage : ${final_stage}")
             currentBuild.description = "${buildType} - ${upstreamVersion}"
         }
 
