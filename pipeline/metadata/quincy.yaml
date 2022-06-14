@@ -14,12 +14,9 @@
   rhbuild: "quincy"
   inventory:
     openstack: "conf/inventory/rhel-8-latest.yaml"
-    ibmc: "conf/inventory/ibm-vpc-rhel-8-latest.yaml"
   metadata:
     - sanity
-    - tier-0
     - openstack
-    - ibmc
     - cephfs
     - stage-1
 
@@ -30,12 +27,9 @@
   rhbuild: "quincy"
   inventory:
     openstack: "conf/inventory/rhel-8-latest.yaml"
-    ibmc: "conf/inventory/ibm-vpc-rhel-8-latest.yaml"
   metadata:
     - sanity
-    - tier-0
     - openstack
-    - ibmc
     - rbd
     - stage-1
 
@@ -46,12 +40,9 @@
   rhbuild: "quincy"
   inventory:
     openstack: "conf/inventory/rhel-8-latest.yaml"
-    ibmc: "conf/inventory/ibm-vpc-rhel-8-latest.yaml"
   metadata:
     - sanity
-    - tier-0
     - openstack
-    - ibmc
     - rgw
     - stage-1
 
@@ -62,11 +53,8 @@
   rhbuild: "quincy"
   inventory:
     openstack: "conf/inventory/rhel-8-latest.yaml"
-    ibmc: "conf/inventory/ibm-vpc-rhel-8-latest.yaml"
   metadata:
     - sanity
-    - tier-0
     - openstack
-    - ibmc
     - dmfg
     - stage-1
