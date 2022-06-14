@@ -19,6 +19,7 @@
     - upstream
     - openstack
     - dmfg
+    - stage-1
 
 - name: "Beginning Red Hat CephFS Core Feature testing with upstream build"
   suite: "suites/quincy/cephfs/tier-0_fs.yaml"
@@ -31,6 +32,7 @@
     - upstream
     - openstack
     - cephfs
+    - stage-1
 
 - name: "Beginning Red Hat Ceph RBD core feature testing with upstream build"
   suite: "suites/quincy/rbd/tier-0_rbd.yaml"
@@ -43,6 +45,7 @@
     - upstream
     - openstack
     - rbd
+    - stage-1
 
 - name: "Beginning Red Hat Ceph RGW Core feature testing with upstream build"
   suite: "suites/quincy/rgw/tier-0_rgw.yaml"
@@ -55,3 +58,4 @@
     - upstream
     - openstack
     - rgw
+    - stage-1
