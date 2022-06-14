@@ -1410,7 +1410,7 @@ def clone_the_repo(config, node, path_to_clone):
     node.exec_command(cmd=f"cd {path_to_clone} ; {git_clone_cmd}")
 
 
-def fetch_upstream_build_artifacts(build, ceph_version):
+def fetch_upstream_build(build, ceph_version):
     """Retrieves upstream build details from magna002.ceph.redhat.com.
 
     "RHCEPH-{ceph_version}.yaml" would be file name which is
