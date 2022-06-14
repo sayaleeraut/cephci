@@ -771,9 +771,8 @@ def fetchStagesUpstream(def tags, def testResults, def upstreamVersion) {
     println("Inside fetch stages from runner")
     def runnerCLI = "cd ${env.WORKSPACE}/pipeline/scripts/ci;"
     runnerCLI = "${runnerCLI} ${env.WORKSPACE}/.venv/bin/python getPipelineStages.py"
-    runnerCLI = "${runnerCLI} --rhcephVersion ${rhcephVersion}"
+    runnerCLI = "${runnerCLI} --rhcephVersion ${upstreamVersion}"
     runnerCLI = "${runnerCLI} --tags ${tags}"
-    runnerCLI = "${runnerCLI} --overrides '${overrides}'"
     println runnerCLI
 
     println("RunnerCLI: ${runnerCLI}")
