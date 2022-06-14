@@ -7,9 +7,23 @@
 # parameter required to create a similar custom file is suite name, suite yaml file, global configuration file,
 # platform, rhbuild, inventory and metadata information like frequency of execution, tier, cloud type, functional group and stage.
 #=====================================================================================
+
+- name: "Beginning Red Hat Cephadm testing with upstream build"
+  suite: "suites/quincy/cephadm/tier-0_dmfg.yaml"
+  global-conf: "conf/quincy/cephadm/sanity-cephadm.yaml"
+  platform: "rhel-8"
+  rhbuild: "quincy"
+  inventory:
+    openstack: "conf/inventory/rhel-8-latest.yaml"
+  metadata:
+    - sanity
+    - openstack
+    - dmfg
+    - stage-1
+
 - name: "Beginning Red Hat CephFS Core Feature testing with upstream build"
-  suite: "suites/quincy/cephfs/<suite_file>.yaml"
-  global-conf: "conf/quincy/cephfs/<conf_file>.yaml"
+  suite: "suites/quincy/cephfs/tier-0_fs.yaml"
+  global-conf: "conf/quincy/cephfs/tier-0_fs.yaml"
   platform: "rhel-8"
   rhbuild: "quincy"
   inventory:
@@ -21,8 +35,8 @@
     - stage-1
 
 - name: "Beginning Red Hat Ceph RBD core feature testing with upstream build"
-  suite: "suites/quincy/rbd/<suite_file>.yaml"
-  global-conf: "conf/quincy/rbd/<conf_file>.yaml"
+  suite: "suites/quincy/rbd/tier-0_rbd.yaml"
+  global-conf: "conf/quincy/rbd/tier-0_rbd.yaml"
   platform: "rhel-8"
   rhbuild: "quincy"
   inventory:
@@ -34,8 +48,8 @@
     - stage-1
 
 - name: "Beginning Red Hat Ceph RGW Core feature testing with upstream build"
-  suite: "suites/quincy/rgw/<suite_file>.yaml"
-  global-conf: "conf/quincy/rgw/<conf_file>.yaml"
+  suite: "suites/quincy/rgw/tier-0_rgw.yaml"
+  global-conf: "conf/quincy/rgw/tier-0_rgw.yaml"
   platform: "rhel-8"
   rhbuild: "quincy"
   inventory:
@@ -44,17 +58,4 @@
     - sanity
     - openstack
     - rgw
-    - stage-1
-
-- name: "Beginning Red Hat Ceph Adm testing with upstream build"
-  suite: "suites/quincy/cephadm/<suite_file>.yaml"
-  global-conf: "conf/quincy/cephadm/<conf_file>.yaml"
-  platform: "rhel-8"
-  rhbuild: "quincy"
-  inventory:
-    openstack: "conf/inventory/rhel-8-latest.yaml"
-  metadata:
-    - sanity
-    - openstack
-    - dmfg
     - stage-1
