@@ -16,10 +16,9 @@
   inventory:
     openstack: "conf/inventory/rhel-8-latest.yaml"
   metadata:
-    - sanity
+    - upstream
     - openstack
     - dmfg
-    - stage-1
 
 - name: "Beginning Red Hat CephFS Core Feature testing with upstream build"
   suite: "suites/quincy/cephfs/tier-0_fs.yaml"
@@ -29,10 +28,9 @@
   inventory:
     openstack: "conf/inventory/rhel-8-latest.yaml"
   metadata:
-    - sanity
+    - upstream
     - openstack
     - cephfs
-    - stage-1
 
 - name: "Beginning Red Hat Ceph RBD core feature testing with upstream build"
   suite: "suites/quincy/rbd/tier-0_rbd.yaml"
@@ -42,10 +40,9 @@
   inventory:
     openstack: "conf/inventory/rhel-8-latest.yaml"
   metadata:
-    - sanity
+    - upstream
     - openstack
     - rbd
-    - stage-1
 
 - name: "Beginning Red Hat Ceph RGW Core feature testing with upstream build"
   suite: "suites/quincy/rgw/tier-0_rgw.yaml"
@@ -55,7 +52,6 @@
   inventory:
     openstack: "conf/inventory/rhel-8-latest.yaml"
   metadata:
-    - sanity
+    - upstream
     - openstack
     - rgw
-    - stage-1
