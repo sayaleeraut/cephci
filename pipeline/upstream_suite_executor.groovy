@@ -8,7 +8,6 @@ def testStages = [:]
 def testResults = [:]
 def upstreamVersion = "${params.Upstream_Version}"
 def buildType = "upstream"
-def overrides = [:]
 
 // Pipeline script entry point
 node(nodeName) {
@@ -50,6 +49,7 @@ node(nodeName) {
         }
         stage('Execute Testsuites') {
             def tags = "${buildType},stage-1"
+            def overrides = [bhuild:buildType]
             fetchStages = sharedLib.fetchStagesUpstream(tags, overrides, testResults, upstreamVersion)
             print("Stages fetched: ${fetchStages}")
             testStages = fetchStages["testStages"]
