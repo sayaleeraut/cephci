@@ -49,11 +49,11 @@ node(nodeName) {
             }
         }
         stage('Execute Testsuites') {
-            overrides."build" = buildType
-            println(overrides)
+//             overrides."build" = buildType
+//             println(overrides)
             def tags = ""
             print("Fetching stages")
-            fetchStages = sharedLib.fetchStages(tags, overrides, testResults, upstreamVersion)
+            fetchStages = sharedLib.fetchStages(tags, testResults, upstreamVersion)
             print("Stages fetched: ${fetchStages}")
             testStages = fetchStages["testStages"]
             if ( testStages.isEmpty() ) {
