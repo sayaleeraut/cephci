@@ -449,6 +449,7 @@ def run(args):
     if build and build not in ["released"]:
         if build == "upstream":
             upstream_build = args["--upstream-build"]
+            print(upstream_build)
         base_url, docker_registry, docker_image, docker_tag = fetch_build_artifacts(
             build, rhbuild, platform, upstream_build
         )
