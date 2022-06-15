@@ -49,7 +49,7 @@ node(nodeName) {
         }
         stage('Execute Testsuites') {
             def tags = "${buildType},stage-1"
-            def overrides = [build:buildType]
+            def overrides = [build:upstreamVersion]
             fetchStages = sharedLib.fetchStagesUpstream(tags, overrides, testResults, upstreamVersion)
             print("Stages fetched: ${fetchStages}")
             testStages = fetchStages["testStages"]
