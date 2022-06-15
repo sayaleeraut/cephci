@@ -1130,9 +1130,9 @@ def fetch_build_artifacts(build, ceph_version, platform, upstream_build=None):
     data = requests.get(url, verify=False)
     yml_data = yaml.safe_load(data.text)
 
-    build_info = yml_data.get(ceph_version) if build == "upstream" else yml_data.get(build)
+    build_info = yml_data.get(upstream_build) if build == "upstream" else yml_data.get(build)
     if not build_info:
-        raise TestSetupFailure(f"{build} did not found in {url}.")
+        raise TestSetupFailure(f"Did not found requested data in {url}.")
 
     container_image = build_info["image"] if build == "upstream" else build_info["repository"]
     registry, image_name = container_image.split(":")[0].split("/", 1)
