@@ -445,15 +445,13 @@ def run(args):
     platform = args["--platform"]
     build = args.get("--build", None)
 
-    if build:
-        if build not in ["released", "upstream"]:
-            base_url, docker_registry, docker_image, docker_tag = fetch_build_artifacts(
-                build, rhbuild, platform
-            )
-        elif build == "upstream":
-            base_url, docker_registry, docker_image, docker_tag = fetch_upstream_build(
-                build, rhbuild
-            )
+    upstream_build = None
+    if build and build not in ["released"]:
+        if build == "upstream":
+            upstream_build = args["--upstream-build"]
+        base_url, docker_registry, docker_image, docker_tag = fetch_build_artifacts(
+            build, rhbuild, platform, upstream_build
+        )
 
     store = args.get("--store", False)
 
