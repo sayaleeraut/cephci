@@ -48,7 +48,6 @@ from utility.utils import (
     create_unique_test_name,
     email_results,
     fetch_build_artifacts,
-    fetch_upstream_build,
     generate_unique_id,
     magna_url,
 )
@@ -79,6 +78,7 @@ A simple test suite wrapper that executes tests based on yaml test configuration
         [--insecure-registry]
         [--post-results]
         [--report-portal]
+        [--upstream-build <upstream-build>]
         [--log-level <LEVEL>]
         [--log-dir  <directory-name>]
         [--instances-name <name>]
