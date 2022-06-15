@@ -1131,6 +1131,8 @@ def fetch_build_artifacts(build, ceph_version, platform, upstream_build=None):
     yml_data = yaml.safe_load(data.text)
 
     build_info = yml_data.get(upstream_build) if build == "upstream" else yml_data.get(build)
+    print(build_info)
+    print(upstream_build)
     if not build_info:
         raise TestSetupFailure(f"Did not found requested data in {url}.")
 
