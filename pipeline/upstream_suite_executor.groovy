@@ -47,16 +47,16 @@ node(nodeName) {
                 sharedLib.prepareNode()
             }
         }
-        stage('Execute Testsuites') {
+        stage('Fetch Test-suites for Execution') {
             def tags = "${buildType},stage-1"
             def overrides = [build:buildType,"upstream-build":upstreamVersion]
             fetchStages = sharedLib.fetchStagesUpstream(tags, overrides, testResults, upstreamVersion)
-            print("Stages fetched: ${fetchStages}")
             testStages = fetchStages["testStages"]
             if ( testStages.isEmpty() ) {
-                currentBuild.result = "ABORTED"
+                currentBuild.result = "FAILURE"
                 error "No test suites were found for execution."
             }
+            print("Stages fetched: ${fetchStages}")
             currentBuild.description = "${buildType} - ${upstreamVersion}"
         }
 
@@ -68,11 +68,9 @@ node(nodeName) {
             }
         }
     } catch(Exception err) {
-        if (currentBuild.result != "ABORTED") {
-            // notify about failure
-            currentBuild.result = "FAILURE"
-            def failureReason = err.getMessage()
-            echo failureReason
-        }
+        // notify about failure
+        currentBuild.result = "FAILURE"
+        def failureReason = err.getMessage()
+        echo failureReason
     }
 }
