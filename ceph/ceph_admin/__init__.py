@@ -155,6 +155,10 @@ class CephAdmin(BootstrapMixin, ShellMixin):
                 sudo=True, cmd=f"curl -o /etc/yum.repos.d/upstream_ceph.repo {repo_url}"
             )
             node.exec_command(sudo=True, cmd="yum update metadata", check_ec=False)
+            node.exec_command(
+                sudo=True, check_ec=False,
+                cmd="dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm"
+            )
 
     def install(self, **kwargs: Dict) -> None:
         """Install the cephadm package in all node(s).
