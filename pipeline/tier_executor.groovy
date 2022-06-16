@@ -24,7 +24,7 @@ if ("ibmc" in tags_list){
 def branch
 def repo
 if (params.gitbranch){branch = "${params.gitbranch}"}
-else{branch='origin/master'}
+else{branch='master'}
 
 if (params.gitrepo){repo = "${params.gitrepo}"}
 else{repo='https://github.com/red-hat-storage/cephci.git'}
@@ -37,7 +37,7 @@ node(nodeName) {
             checkout(
                 scm: [
                     $class: 'GitSCM',
-                    branches: [[name: branch]],
+                    branches: [[name: "*/${branch}"]],
                     extensions: [
                         [
                             $class: 'CleanBeforeCheckout',
