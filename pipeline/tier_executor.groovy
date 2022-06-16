@@ -155,18 +155,18 @@ node(nodeName) {
     parallel testStages
 
     if ("openstack" in tags_list){
-        stage('Publish Results') {
-        /* Publish results through E-mail to user who started the run*/
-            build_url = env.BUILD_URL
-            run_type = "Manual Run"
-            sharedLib.sendEmail(
-                run_type,
-                testResults,
-                sharedLib.buildArtifactsDetails(releaseContent, rhcephVersion, overrides.get("build")),
-                tierLevel.capitalize(),
-                currentStageLevel.capitalize()
-            )
-        }
+//         stage('Publish Results') {
+//         /* Publish results through E-mail to user who started the run*/
+//             build_url = env.BUILD_URL
+//             run_type = "Manual Run"
+//             sharedLib.sendEmail(
+//                 run_type,
+//                 testResults,
+//                 sharedLib.buildArtifactsDetails(releaseContent, rhcephVersion, overrides.get("build")),
+//                 tierLevel.capitalize(),
+//                 currentStageLevel.capitalize()
+//             )
+//         }
 
         stage('postBuildAction') {
             println("Inside post build action")
