@@ -1111,16 +1111,14 @@ def generate_self_signed_certificate(subject: Dict) -> Tuple:
 
 def fetch_build_artifacts(build, ceph_version, platform, upstream_build=None):
     """Retrieves build details from magna002.ceph.redhat.com.
-
     if "{build}" is "upstream"  "{build}.yaml" would be file name
     else its "RHCEPH-{ceph_version}.yaml" which is
     searched in magna002 Ceph artifacts location.
-
     Args:
         ceph_version: RHCS version
         build: build section to be fetched
         platform: OS distribution name with major Version(ex., rhel-8)
-
+        upstream_build: upstream build(ex., pacific/quincy) default:None
     Returns:
         base_url, container_registry, image-name, image-tag
     """
@@ -1131,15 +1129,17 @@ def fetch_build_artifacts(build, ceph_version, platform, upstream_build=None):
     yml_data = yaml.safe_load(data.text)
 
     build_info = yml_data.get(upstream_build) if upstream_build else yml_data.get(build)
-    print(build_info)
-    print(upstream_build)
     if not build_info:
-        raise TestSetupFailure(f"Did not found requested data in {url}.")
+        raise TestSetupFailure(f"Did not find requested data in {url}.")
 
-    container_image = build_info["image"] if upstream_build else build_info["repository"]
+    container_image = (
+        build_info["image"] if upstream_build else build_info["repository"]
+    )
     registry, image_name = container_image.split(":")[0].split("/", 1)
     image_tag = container_image.split(":")[-1]
-    base_url = build_info["composes"] if upstream_build else build_info["composes"][platform]
+    base_url = (
+        build_info["composes"] if upstream_build else build_info["composes"][platform]
+    )
 
     return base_url, registry, image_name, image_tag
 
