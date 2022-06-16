@@ -154,7 +154,7 @@ node(nodeName) {
 
 //     parallel testStages
 
-//     if ("openstack" in tags_list){
+    if ("openstack" in tags_list){
 // //         stage('Publish Results') {
 // //         /* Publish results through E-mail to user who started the run*/
 // //             build_url = env.BUILD_URL
