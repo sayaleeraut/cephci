@@ -168,54 +168,54 @@ node(nodeName) {
 // //             )
 // //         }
 
-//         stage('postBuildAction') {
-//             println("Inside post build action")
-//             buildArtifacts = writeJSON returnText: true, json: buildArtifacts
-//             def nextbuildType = buildType
-//             def buildStatus = "pass"
-//             if (final_stage){
-//                 def tierValue = tierLevel.split("-")
-//                 Increment_tier= tierValue[1].toInteger()+1
-//                 nextTierLevel= tierValue[0]+"-"+Increment_tier
-//                 def index = tags_list.findIndexOf { it ==~ /tier-\w+/ }
-//                 tags_list.putAt(index,nextTierLevel)
-//                 def index_stage = tags_list.findIndexOf { it ==~ /stage-\w+/ }
-//                 tags_list.putAt(index_stage,"stage-1")
-//                 tags=tags_list.join(",")
-//                 nextbuildType = tierLevel
-//             }
-//             else{
-//                 tags_list = tags.split(',') as List
-//                 def index = tags_list.findIndexOf { it ==~ /stage-\w+/ }
-//                 stageLevel = tags_list.get(index)
-//                 def stageValue = stageLevel.split("-")
-//                 Increment_stage= stageValue[1].toInteger()+1
-//                 stageLevel= stageValue[0]+"-"+Increment_stage
-//                 tags_list.putAt(index,stageLevel)
-//                 tags=tags_list.join(",")
-//             }
-//             overrides = writeJSON returnText: true, json: overrides
+        stage('postBuildAction') {
+            println("Inside post build action")
+            buildArtifacts = writeJSON returnText: true, json: buildArtifacts
+            def nextbuildType = buildType
+            def buildStatus = "pass"
+            if (final_stage){
+                def tierValue = tierLevel.split("-")
+                Increment_tier= tierValue[1].toInteger()+1
+                nextTierLevel= tierValue[0]+"-"+Increment_tier
+                def index = tags_list.findIndexOf { it ==~ /tier-\w+/ }
+                tags_list.putAt(index,nextTierLevel)
+                def index_stage = tags_list.findIndexOf { it ==~ /stage-\w+/ }
+                tags_list.putAt(index_stage,"stage-1")
+                tags=tags_list.join(",")
+                nextbuildType = tierLevel
+            }
+            else{
+                tags_list = tags.split(',') as List
+                def index = tags_list.findIndexOf { it ==~ /stage-\w+/ }
+                stageLevel = tags_list.get(index)
+                def stageValue = stageLevel.split("-")
+                Increment_stage= stageValue[1].toInteger()+1
+                stageLevel= stageValue[0]+"-"+Increment_stage
+                tags_list.putAt(index,stageLevel)
+                tags=tags_list.join(",")
+            }
+            overrides = writeJSON returnText: true, json: overrides
 
-//             if ("FAIL" in sharedLib.fetchStageStatus(testResults)) {
-//                 currentBuild.result = "FAILED"
-//                 buildStatus = "fail"
-//             }
-//             // Execute post tier based on run execution
-//             if(!final_stage || (final_stage && tierLevel != "tier-2")){
-//                 build ([
-//                     wait: false,
-//                     job: "rhceph-test-execution-pipeline",
-//                     parameters: [string(name: 'rhcephVersion', value: rhcephVersion.toString()),
-//                                 string(name: 'tags', value: tags),
-//                                 string(name: 'buildType', value: nextbuildType.toString()),
-//                                 string(name: 'overrides', value: overrides.toString()),
-//                                 string(name: 'buildArtifacts', value: buildArtifacts.toString()),
-//                                 string(name: 'gitrepo', value: repo.toString()),
-//                                 string(name: 'gitbranch', value: branch.toString())]
-//                 ])
-//             }
-//         }
-//     }
+            if ("FAIL" in sharedLib.fetchStageStatus(testResults)) {
+                currentBuild.result = "FAILED"
+                buildStatus = "fail"
+            }
+            // Execute post tier based on run execution
+            if(!final_stage || (final_stage && tierLevel != "tier-2")){
+                build ([
+                    wait: false,
+                    job: "rhceph-test-execution-pipeline",
+                    parameters: [string(name: 'rhcephVersion', value: rhcephVersion.toString()),
+                                string(name: 'tags', value: tags),
+                                string(name: 'buildType', value: nextbuildType.toString()),
+                                string(name: 'overrides', value: overrides.toString()),
+                                string(name: 'buildArtifacts', value: buildArtifacts.toString()),
+                                string(name: 'gitrepo', value: repo.toString()),
+                                string(name: 'gitbranch', value: branch.toString())]
+                ])
+            }
+        }
+    }
 
 //     if("ibmc" in tags_list){
 //         println("Inside ibmc post results")
