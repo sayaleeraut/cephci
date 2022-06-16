@@ -8,6 +8,22 @@
 # platform, rhbuild, inventory and metadata information like frequency of execution, tier, cloud type, functional group and stage.
 #=====================================================================================
 
+- name: "Tier-0 test suite at 5x for quick build qualification"
+  suite: "suites/pacific/cephadm/tier-0.yaml"
+  global-conf: "conf/pacific/cephadm/tier-0.yaml"
+  platform: "rhel-8"
+  rhbuild: "5.2"
+  inventory:
+    openstack: "conf/inventory/rhel-8-latest.yaml"
+    ibmc: "conf/inventory/ibm-vpc-rhel-8-latest.yaml"
+  metadata:
+    - sanity
+    - tier-0
+    - openstack
+    - ibmc
+    - dmfg
+    - stage-1
+
 - name: "Tier-0 test suite for 5x for RGW sanity"
   suite: "suites/pacific/rgw/tier-0_rgw.yaml"
   global-conf: "conf/pacific/rgw/tier-0_rgw.yaml"
