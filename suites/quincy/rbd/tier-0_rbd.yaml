@@ -146,8 +146,3 @@ tests:
       desc: "Executing upstream RBD CLI Migration scenarios"
       module: test_rbd.py
       name: 5_rbd_cli_migration
-  -
-    test:
-      desc: "generate sosreport"
-      module: sosreport.py
-      name: "generate sosreport"
