@@ -71,7 +71,7 @@ node(nodeName) {
         )
 
         sharedLib = load("${env.WORKSPACE}/pipeline/vars/v3.groovy")
-        if(tags_list.contains('ibmc'){
+        if(tags_list.contains('ibmc')){
             sharedLib.prepareIbmNode()
         }
         else{
