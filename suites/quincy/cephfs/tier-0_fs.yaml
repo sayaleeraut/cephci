@@ -1,13 +1,11 @@
 ---
 tests:
-  -
-    test:
+  - test:
       abort-on-fail: true
       desc: "Setup phase to deploy the required pre-requisites for running the tests."
       module: install_prereq.py
       name: "setup install pre-requisistes"
-  -
-    test:
+  - test:
       abort-on-fail: true
       config:
         steps:
@@ -75,8 +73,7 @@ tests:
       module: test_cephadm.py
       name: "cluster deployment"
       polarion-id: CEPH-83573777
-  -
-    test:
+  - test:
       abort-on-fail: true
       config:
         args:
@@ -92,8 +89,7 @@ tests:
       module: test_bootstrap.py
       name: "Add Active Active configuration of MDS"
       polarion-id: CEPH-11344
-  -
-    test:
+  - test:
       abort-on-fail: true
       config:
         command: add
@@ -112,28 +108,15 @@ tests:
       module: mds_default_values.py
       name: cephfs default values for mds
       polarion-id: "CEPH-83574284"
-  -
-    test:
+  - test:
       abort-on-fail: false
       desc: "cephfs basic operations"
       module: cephfs_basic_tests.py
       name: cephfs-basics
       polarion-id: "CEPH-11293,CEPH-11296,CEPH-11297,CEPH-11295"
-  -
-    test:
-      name: nfs-ganesha_with_cephfs
-      module: nfs-ganesha_basics.py
-      desc: Configure nfs-ganesha on nfs server,do mount on any client and do IOs
-      polarion-id: CEPH-83574439
-      abort-on-fail: false
   - test:
       name: Increase and Decrease of MDS
       module: mds_Inc_dec.py
       desc: Deploy mds using cephadm and increase & decrease number of mds.
       polarion-id: CEPH-83574286
       abort-on-fail: false
-  -
-    test:
-      desc: "generate sosreport"
-      module: sosreport.py
-      name: "generate sosreport"
