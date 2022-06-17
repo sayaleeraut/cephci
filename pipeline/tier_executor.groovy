@@ -21,19 +21,18 @@ def tags
 def branch='origin/master'
 def repo='https://github.com/red-hat-storage/cephci.git'
 
-if(params?.trim()) {
-    if (params.containsKey('gitbranch')){
-    branch=params.gitbranch}
 
-    if (params.containsKey('gitrepo')){
-    repo=params.gitrepo}
+if (params.containsKey('gitbranch')){
+branch=params.gitbranch}
 
-    if (params.containsKey('tags')){
-        tags=params.tags
-        tags_list = tags.split(',') as List
-        if (tags_list.contains('ibmc')){
-            nodeName = "agent-01"}
-    }
+if (params.containsKey('gitrepo')){
+repo=params.gitrepo}
+
+if (params.containsKey('tags')){
+    tags=params.tags
+    tags_list = tags.split(',') as List
+    if (tags_list.contains('ibmc')){
+        nodeName = "agent-01"}
 }
 
 
