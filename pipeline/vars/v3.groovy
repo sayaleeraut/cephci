@@ -677,7 +677,7 @@ def executeTestScript(def script) {
 
 def fetchStages(
     def tags, def overrides, def testResults, def rhcephversion=null,
-    def metadataFilePath=null
+    def metadataFilePath=null, def upstreamVersion=null
     ) {
     /*
         Return all the scripts found under
@@ -688,19 +688,23 @@ def fetchStages(
         MINOR   -   RHceph minor version (ex., 0)
     */
     println("Inside fetch stages from runner")
-    def RHCSVersion = [:]
-    if ( overrides.containsKey("build") && overrides["build"] == "released" ) {
-        RHCSVersion = fetchMajorMinorOSVersion("released")
-    } else if ( rhcephversion ) {
-        RHCSVersion["major_version"] = rhcephversion.substring(7,8)
-        RHCSVersion["minor_version"] = rhcephversion.substring(9,10)
-    } else {
-        RHCSVersion = getRHCSVersionFromArtifactsNvr()
-    }
+    def rhcephVersion
+    if ( ! upstreamVersion ) {
+        def RHCSVersion = [:]
+        if ( overrides.containsKey("build") && overrides["build"] == "released" ) {
+            RHCSVersion = fetchMajorMinorOSVersion("released")
+        } else if ( rhcephversion ) {
+            RHCSVersion["major_version"] = rhcephversion.substring(7,8)
+            RHCSVersion["minor_version"] = rhcephversion.substring(9,10)
+        } else {
+            RHCSVersion = getRHCSVersionFromArtifactsNvr()
+        }
 
-    def majorVersion = RHCSVersion.major_version
-    def minorVersion = RHCSVersion.minor_version
-    def rhcephVersion = "${majorVersion}.${minorVersion}"
+        def majorVersion = RHCSVersion.major_version
+        def minorVersion = RHCSVersion.minor_version
+        rhcephVersion = "${majorVersion}.${minorVersion}"
+    }
+    else { rhcephVersion = upstreamVersion }
 
     def overridesStr = writeJSON returnText: true, json: overrides
 
@@ -758,52 +762,6 @@ def SendUMBMessage(def msgMap, def overrideTopic, def msgType) {
         failOnError: true
     ])
 
-}
-
-
-def fetchStagesUpstream(def tags, def overrides, def testResults, def upstreamVersion) {
-    /*
-        Return all the scripts found under
-        cephci/pipeline/metadata/upstreamVersion.yaml matching
-        the given tierLevel as pipeline Test Stages.
-           example: cephci/pipeline/metadata/quincy.yaml
-    */
-    println("Inside fetch stages from runner")
-    def overridesStr = writeJSON returnText: true, json: overrides
-
-    def runnerCLI = "cd ${env.WORKSPACE}/pipeline/scripts/ci;"
-    runnerCLI = "${runnerCLI} ${env.WORKSPACE}/.venv/bin/python getPipelineStages.py"
-    runnerCLI = "${runnerCLI} --rhcephVersion ${upstreamVersion}"
-    runnerCLI = "${runnerCLI} --tags ${tags}"
-    runnerCLI = "${runnerCLI} --overrides '${overridesStr}'"
-    println runnerCLI
-
-    println("RunnerCLI: ${runnerCLI}")
-
-    def testScriptString = sh (returnStdout: true, script: runnerCLI)
-
-    println("testScriptString: ${testScriptString}")
-
-    def testScripts = readYaml text: testScriptString
-    def testStages = [:]
-
-    if (! testScripts ){
-        return testStages
-    }
-
-    testScripts["scripts"].each{scriptName, scriptData->
-        testResults[scriptName] = [:]
-        testStages[scriptName] = {
-            stage(scriptName){
-                testResults[scriptName]["status"] = executeTestScript(scriptData)
-                testResults[scriptName]["logdir"] = scriptData["log_dir"]
-            }
-        }
-    }
-    def final_stage = testScripts["final_stage"]
-    println("Final Stage after : ${final_stage}")
-    println "Test Stages - ${testStages}"
-    return ["testStages": testStages, "final_stage": final_stage]
 }
 
 return this;
