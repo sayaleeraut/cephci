@@ -16,7 +16,6 @@ def final_stage = false
 def run_type
 def nodeName = "centos-7"
 def tags=""
-def tags_list
 
 
 def branch='origin/master'
