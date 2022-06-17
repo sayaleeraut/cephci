@@ -1109,39 +1109,45 @@ def generate_self_signed_certificate(subject: Dict) -> Tuple:
     )
 
 
-def fetch_build_artifacts(build, ceph_version, platform, upstream_build=None):
+def fetch_build_artifacts(build, ceph_version, platform, upstream_build):
     """Retrieves build details from magna002.ceph.redhat.com.
+
     if "{build}" is "upstream"  "{build}.yaml" would be file name
     else its "RHCEPH-{ceph_version}.yaml" which is
     searched in magna002 Ceph artifacts location.
+
     Args:
         ceph_version: RHCS version
         build: build section to be fetched
         platform: OS distribution name with major Version(ex., rhel-8)
-        upstream_build: upstream build(ex., pacific/quincy) default:None
+        upstream_build: upstream build(ex., pacific/quincy)
     Returns:
         base_url, container_registry, image-name, image-tag
     """
-    recipe_url = get_cephci_config().get("build-url", magna_rhcs_artifacts)
-    filename = f"{build}.yaml" if upstream_build else f"RHCEPH-{ceph_version}.yaml"
-    url = f"{recipe_url}{filename}"
-    data = requests.get(url, verify=False)
-    yml_data = yaml.safe_load(data.text)
+    try:
+        recipe_url = get_cephci_config().get("build-url", magna_rhcs_artifacts)
+        filename = f"{build}.yaml" if build == "upstream" else f"RHCEPH-{ceph_version}.yaml"
+        url = f"{recipe_url}{filename}"
+        data = requests.get(url, verify=False)
+        yml_data = yaml.safe_load(data.text)
 
-    build_info = yml_data.get(upstream_build) if upstream_build else yml_data.get(build)
-    if not build_info:
-        raise TestSetupFailure(f"Did not find requested data in {url}.")
+        build_info = (
+            yml_data[upstream_build] if build == "upstream" else yml_data[build]
+        )
 
-    container_image = (
-        build_info["image"] if upstream_build else build_info["repository"]
-    )
-    registry, image_name = container_image.split(":")[0].split("/", 1)
-    image_tag = container_image.split(":")[-1]
-    base_url = (
-        build_info["composes"] if upstream_build else build_info["composes"][platform]
-    )
-
-    return base_url, registry, image_name, image_tag
+        container_image = (
+            build_info["image"] if build == "upstream" else build_info["repository"]
+        )
+        registry, image_name = container_image.split(":")[0].split("/", 1)
+        image_tag = container_image.split(":")[-1]
+        base_url = (
+            build_info["composes"]
+            if build == "upstream"
+            else build_info["composes"][platform]
+        )
+        return base_url, registry, image_name, image_tag
+    except Exception as e:
+        raise TestSetupFailure(f"Could not fetch build details of : {e}")
 
 
 def rp_deco(func):
