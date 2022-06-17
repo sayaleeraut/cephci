@@ -50,7 +50,7 @@ node(nodeName) {
         stage('Fetch Test-suites for Execution') {
             def tags = "${buildType},stage-1"
             def overrides = [build:buildType,"upstream-build":upstreamVersion]
-            fetchStages = sharedLib.fetchStagesUpstream(tags, overrides, testResults, upstreamVersion)
+            fetchStages = sharedLib.fetchStages(tags, overrides, testResults, upstreamVersion=upstreamVersion)
             testStages = fetchStages["testStages"]
             if ( testStages.isEmpty() ) {
                 currentBuild.result = "FAILURE"
