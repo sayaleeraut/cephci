@@ -29,6 +29,10 @@ else{branch='master'}
 if (params.gitrepo){repo = "${params.gitrepo}"}
 else{repo='https://github.com/red-hat-storage/cephci.git'}
 
+println("repo is")
+println(repo)
+println("branch is")
+println(branch)
 
 node(nodeName) {
     timeout(unit: "MINUTES", time: 30) {
