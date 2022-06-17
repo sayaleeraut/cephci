@@ -157,7 +157,7 @@ class CephAdmin(BootstrapMixin, ShellMixin):
             node.exec_command(sudo=True, cmd="yum update metadata", check_ec=False)
             node.exec_command(
                 sudo=True,
-                cmd="dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm",
+                cmd="dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y",
                 check_ec=False,
             )
 
