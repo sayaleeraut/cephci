@@ -25,7 +25,7 @@
 
 - name: "Tier-0 test suite for 5x for RGW sanity"
   suite: "suites/pacific/rgw/tier-0_rgw.yaml"
-  global-conf: "conf/pacific/rgw/tier-0_rgw.yaml"
+  global-conf: "conf/pacific/rgw/tier-0_rgw1.yaml"
   platform: "rhel-8"
   rhbuild: "5.2"
   inventory:
