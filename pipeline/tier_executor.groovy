@@ -23,13 +23,13 @@ def branch='origin/master'
 def repo='https://github.com/red-hat-storage/cephci.git'
 
 if(params?.trim()) {
-    if (params.containsKey('gitbranch'){
+    if (params.containsKey('gitbranch')){
     branch=params.gitbranch}
 
-    if (params.containsKey('gitrepo'){
+    if (params.containsKey('gitrepo')){
     repo=params.gitrepo}
 
-    if (params.containsKey('tags'){
+    if (params.containsKey('tags')){
         tags=params.tags
         tags_list = tags.split(',') as List
         if (tags_list.contains('ibmc')){
