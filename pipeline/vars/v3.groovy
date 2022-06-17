@@ -41,7 +41,7 @@ def sendEmail(
     def artifactDetails,
     def tierLevel,
     def stageLevel = null,
-    def toList="ceph-qe-list@redhat.com"
+    def toList="ckulal@redhat.com"
     ) {
     /*
         Send an Email
