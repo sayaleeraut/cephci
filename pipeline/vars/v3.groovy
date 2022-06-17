@@ -689,6 +689,7 @@ def fetchStages(
     */
     println("Inside fetch stages from runner")
     def rhcephVersion
+    println(upstreamVersion)
     if ( ! upstreamVersion ) {
         def RHCSVersion = [:]
         if ( overrides.containsKey("build") && overrides["build"] == "released" ) {
