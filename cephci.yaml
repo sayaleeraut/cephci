@@ -1,0 +1,10 @@
+cdn_credentials:
+  username: qa@redhat.com
+  password: MTQj5t3n5K86p3gH
+
+stage_credentials:
+  username: rhcsuser
+  password: rhcsuser
+
+email:
+    address: saraut@redhat.com
