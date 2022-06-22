@@ -2,7 +2,6 @@
     Script that trigger testsuite for upstream build
 */
 // Global variables section
-def nodeName = "centos-7"
 def sharedLib
 def testStages = [:]
 def testResults = [:]
@@ -10,7 +9,7 @@ def upstreamVersion = "${params.Upstream_Version}"
 def buildType = "upstream"
 
 // Pipeline script entry point
-node(nodeName) {
+node('ceph-qe-ci || rhel-8-medium') {
     try {
         timeout(unit: "MINUTES", time: 30) {
             stage('Preparing') {
