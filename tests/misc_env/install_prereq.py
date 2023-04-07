@@ -250,11 +250,11 @@ def setup_subscription_manager(
             command = "sudo subscription-manager register --force "
 
             command += (
-                "--serverurl=subscription.rhsm.redhat.com:443/subscription"
-                " --baseurl=https://cdn.redhat.com "
+                "--serverurl=subscription.rhsm.stage.redhat.com:443/subscription"
+                " --baseurl=https://cdn.stage.redhat.com "
             )
-            username_ = config_["cdn_credentials"]["username"]
-            password_ = config_["cdn_credentials"]["password"]
+            username_ = config_["stage_credentials"]["username"]
+            password_ = config_["stage_credentials"]["password"]
             command += f"--username={username_} --password={password_}"
             ceph.exec_command(cmd=command, timeout=720)
             break
