@@ -8,27 +8,46 @@ globals:
           - installer
           - mon
           - mgr
+          - osd
+          - node-exporter
+          - alertmanager
+          - grafana
+          - prometheus
+          - crash
+          - smb
+        no-of-volumes: 6
+        disk-size: 15
       node2:
         role:
+          - osd
           - mon
           - mgr
+          - mds
+          - node-exporter
+          - alertmanager
+          - crash
+          - rgw
+          - smb
+        no-of-volumes: 6
+        disk-size: 15
       node3:
         role:
           - mon
           - osd
-        no-of-volumes: 4
-        disk-size: 20
+          - node-exporter
+          - crash
+          - rgw
+          - mds
+          - smb
+        no-of-volumes: 6
+        disk-size: 15
       node4:
         role:
-          - mds
-          - osd
-        no-of-volumes: 4
-        disk-size: 20
+          - client
       node5:
         role:
           - mds
           - osd
-          - rgw
         no-of-volumes: 4
         disk-size: 20
       node6:
